@@ -115,7 +115,7 @@ Caveat: only players who played enough in the target season are scored, so the W
 
 ## AI assistance
 
-This project was developed with help from Claude (Anthropic) for code, debugging and documentation. I reviewed, ran and can explain the model. _(Edit this note to describe your own contribution.)_
+This project was developed with help from Claude (Anthropic) for code, debugging and documentation. I reviewed, ran and can explain the model. AI assistance was used as a development tool. The project is an ongoing learning experience, and I continue to develop my understanding of Python, statistics, baseball analytics, and model evaluation.
 
 ## Roadmap
 
