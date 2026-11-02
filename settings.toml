@@ -1,0 +1,54 @@
+# Settings for war_model.py. Change a value, save, and rerun. Lines starting with # are comments.
+# Anything you delete falls back to the built-in default. Needs Python 3.11 or newer.
+
+[data]
+source = "bref"          # "bref" (Baseball-Reference WAR) or "fangraphs" (often blocked in cloud environments)
+start_season = 2015
+end_season = 2026        # the last completed season in the data
+
+[price]
+# What a win is worth, in $ millions. "auto" measures it from the deals in contracts.csv.
+# Type a number instead (for example 9.0) to force a price.
+price_per_win = "auto"
+fallback_dollars_per_win = 8.0     # used only if the price can't be measured
+yearly_price_growth = 0.05
+
+[ranges]
+# Share of past outcomes the displayed WAR range should cover: 0.50, 0.68, 0.80 or 0.90.
+range_level = 0.68
+
+[model]
+hitter_model = "components"        # "components" (batting, baserunning, fielding, position) or "total"
+season_weights = [5, 4, 3]         # most recent season first
+survivor_bias_weight = 0.0         # 0 = off. The fix (0.5) was backtested and did not improve accuracy, so it is off.
+replacement_rate = 0.5             # WAR per 600 PA (or 180 IP) at or below this counts as replacement level
+
+[special_cases]
+use_special_cases = true           # rookie / call-up and missed-time handling
+return_factor = 0.90               # a player back from a lost season gets 90% of his healthy playing time
+full_season_games = 145            # games a regular hitter is assumed to play (for rookies)
+starts_per_season = 28
+relief_appearances = 60
+min_pa_per_game_for_starter = 3.4
+
+[contracts]
+default_years = 5
+# Contract length assumed in the free-agent report when free_agents.csv doesn't say: [max age, years].
+# Players older than the last age get 2 years.
+years_by_age = [[28, 7], [30, 6], [32, 4], [34, 3]]
+
+[regression]
+# How much average play (in PA for hitters, IP for pitchers) is blended into each part of a projection.
+# Bigger = pulls harder toward the average for his position.
+batting = 1200
+baserunning = 1800
+fielding = 2400
+position = 0
+replacement_other = 600
+hitter_total_rate = 1200
+pitcher_total_rate = 500
+
+[positions]
+# Position groups are inferred from the positional adjustment, in runs per 600 PA, highest first.
+# Below the last cut is DH. Run `python war_model.py --check` to see whether the groups look right.
+cuts = [[4.5, "SS"], [-2.0, "2B/3B/CF"], [-8.0, "LF/RF"], [-12.0, "1B"]]
